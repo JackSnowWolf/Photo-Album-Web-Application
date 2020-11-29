@@ -65,7 +65,7 @@ function upload(e) {
       }
     };
     var solution = srcData.split("base64,")[1];
-    console.log(solution)
+    // console.log(solution)
     var body = JSON.stringify({"img": solution, "name":fileToLoad.name});
 
 
