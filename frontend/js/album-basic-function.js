@@ -97,18 +97,18 @@ function uploadShowAlert(type, msg) {
     $("#uploadAlertCol").append(newElement);
 }
 
-// type: the alert type of bootstrap.
-function searchShowAlert(type, msg) {
-    $("#formAlert").remove();
-
-    date = new Date();
-    time = date.toLocaleTimeString();
-    newElement =
-        "<div id='formAlert' class='alert top-1 " + type + "' role='alert'>" +
-        time + "<br>" + msg +
-        "</div>";
-    $("#searchAlertCol").append(newElement);
-}
+// // type: the alert type of bootstrap.
+// function searchShowAlert(type, msg) {
+//     $("#formAlert").remove();
+//
+//     date = new Date();
+//     time = date.toLocaleTimeString();
+//     newElement =
+//         "<div id='formAlert' class='alert top-1 " + type + "' role='alert'>" +
+//         time + "<br>" + msg +
+//         "</div>";
+//     $("#searchAlertCol").append(newElement);
+// }
 
 
 
