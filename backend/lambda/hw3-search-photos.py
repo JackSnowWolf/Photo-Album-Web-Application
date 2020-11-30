@@ -50,26 +50,25 @@ def search_images(query):
         logger.error(str(e))
         return {
             'statusCode': 400,
-
             'body': "Bad Request"
         }
 
 
 def lambda_handler(event, context):
+    response = dict()
+    response["headers"] = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
+        "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+    }
     try:
-        # if event["httpMethod"].upper() == "OPTIONS":
-        #     return {
-        #         'statusCode': 200,
-        #         'headers': {
-        #             "Access-Control-Allow-Origin": "*",
-        #             "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
-        #             "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-        #         },
-        #         'body': ""
-        #     }
+        if event["httpMethod"].upper() == "OPTIONS":
+            response['statusCode'] = 200
+
+            return response
 
         logger.info("event:")
-        logger.info(json.dumps(event,indent=2))
+        logger.info(json.dumps(event, indent=2))
 
         query = event["queryStringParameters"]['q']
         # lex = boto3.client('lex-runtime')
@@ -92,7 +91,7 @@ def lambda_handler(event, context):
 
         # logger.info(keyword)
 
-        return search_images(query)
+        response.update(search_images(query))
         # return {
         #     'statusCode': 200,
         #     'headers': {
@@ -105,12 +104,6 @@ def lambda_handler(event, context):
         # }
     except Exception as e:
         logger.error(e)
-        return {
-            'statusCode': 400,
-            'headers': {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
-                "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-            },
-            'body': "Bad Request"
-        }
+        response['statusCode'] = 400
+        response["body"] = "Bad Request"
+    return response
