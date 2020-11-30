@@ -5,6 +5,7 @@
 
 
 function loadPhoto(json_str) {
+    console.log(json_str);
     var results = json_str["results"];
     for (var i = 0; i < results.length; i++) {
         var obj = results[i];
@@ -22,25 +23,28 @@ function submitForm(e) {
     e.preventDefault();
     $("#imageCol").empty();
     var labels = $("#labelBox").val();
-    var data = JSON.stringify({
-        "q": labels
-    });
 
     var params = {
-        headers: {
-            param0: 'Accept:application/json',
-        },
+        "q": labels
     };
 
     var apigClient = apigClientFactory.newClient();
-    apigClient.searchGet(params, data).then((response) => {
+    // apigClient.searchOptions().then((response) => {
+    //     console.log(response);
+    // }).catch((error) => {
+    //     console.log('an error occurred', error);
+    //     var errMsg = "Failed.<br>" + error.toString();
+    //     searchShowAlert("alert-danger", errMsg);
+    // })
+
+
+    apigClient.searchGet(params).then((response) => {
         console.log(response);
-        loadPhoto(response);
+        loadPhoto(response.data);
     }).catch((error) => {
         console.log('an error occurred', error);
         var errMsg = "Failed.<br>" + error.toString();
-        alert(errMsg);
-
+        searchShowAlert("alert-danger", errMsg);
     })
 }
 
@@ -97,18 +101,18 @@ function uploadShowAlert(type, msg) {
     $("#uploadAlertCol").append(newElement);
 }
 
-// // type: the alert type of bootstrap.
-// function searchShowAlert(type, msg) {
-//     $("#formAlert").remove();
-//
-//     date = new Date();
-//     time = date.toLocaleTimeString();
-//     newElement =
-//         "<div id='formAlert' class='alert top-1 " + type + "' role='alert'>" +
-//         time + "<br>" + msg +
-//         "</div>";
-//     $("#searchAlertCol").append(newElement);
-// }
+// type: the alert type of bootstrap.
+function searchShowAlert(type, msg) {
+    $("#formAlert").remove();
+
+    date = new Date();
+    time = date.toLocaleTimeString();
+    newElement =
+        "<div id='formAlert' class='alert top-1 " + type + "' role='alert'>" +
+        time + "<br>" + msg +
+        "</div>";
+    $("#searchAlertCol").append(newElement);
+}
 
 
 
