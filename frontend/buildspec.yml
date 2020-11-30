@@ -1,3 +1,5 @@
+version: 0.2
+
 #env:
 #  variables:
 #    JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
@@ -9,6 +11,7 @@ phases:
     commands:
       - echo Entered the install phase...
       - apt-get update -y
+      - ls
 #      - apt-get install -y maven
     finally:
       - echo This always runs even if the update or install command fails
@@ -29,3 +32,8 @@ phases:
     commands:
       - echo Entered the post_build phase...
       - echo Build completed on `date`
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'frontend'
