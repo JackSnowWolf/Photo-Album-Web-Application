@@ -50,6 +50,7 @@ def search_images(query):
         logger.error(str(e))
         return {
             'statusCode': 400,
+
             'body': "Bad Request"
         }
 
@@ -67,10 +68,10 @@ def lambda_handler(event, context):
         #         'body': ""
         #     }
 
-        # logger.info("event:")
-        # logger.info(json.dumps(event,indent=2))
-        # ["queryStringParameters"]
-        query = event['q']
+        logger.info("event:")
+        logger.info(json.dumps(event,indent=2))
+
+        query = event["queryStringParameters"]['q']
         # lex = boto3.client('lex-runtime')
         #
         # user_id = generate_id()
