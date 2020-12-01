@@ -1,11 +1,96 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: AI Photo Album CloudFormation Template
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AI Photo Album Lambda CD
 Resources:
-  Hw3UploadToS3:
-    Type: 'AWS::Lambda::Function'
+  Hw3PhotoBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
     Properties:
-      FunctionName: hw3-upload-to-s3
-      Handler: lambda_function.lambda_handler
+      BucketName: hw3-photo-bucket-example
+      AccessControl: PublicRead
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Date
+            Id: myCORSRuleId1
+  Hw3UploadToS3:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: hw3_upload_to_s3_example
+      Handler: hw3_upload_to_s3.lambda_handler
       Runtime: python3.6
-      Description: 'Lambda function for Uploading to S3'
-
+      CodeUri: s3://hw3-cloudformation-template-example/ad1556b89678db6688a828ed5b83c0d9
+      Description: Lambda function for Uploading to S3
+      MemorySize: 128
+      Timeout: 30
+      Role: arn:aws:iam::910222472548:role/service-role/hw3-upload-to-s3-role-g31bprdo
+      Policies:
+        - AmazonS3FullAccess
+        - AWSLambda_FullAccess
+      Events:
+        HttpPut:
+          Type: Api
+          Properties:
+            Path: /upload
+            Method: put
+      Environment:
+        Variables:
+          REGION: us-east-1
+  Hw3SearchPhotos:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: hw3_search_photos_example
+      Handler: hw3_search_photos.lambda_handler
+      Runtime: python3.6
+      CodeUri: s3://hw3-cloudformation-template-example/8175c4420bb338c6492a8949a1e6fe09
+      Description: Lambda function for Searching Photos
+      MemorySize: 128
+      Timeout: 30
+      Role: arn:aws:iam::910222472548:role/service-role/hw3-search-photos-role-qbr5vmrv
+      Policies:
+        - AmazonS3FullAccess
+        - AWSLambda_FullAccess
+      Events:
+        HttpGet:
+          Type: Api
+          Properties:
+            Path: /search
+            Method: get
+      Environment:
+        Variables:
+          REGION: us-east-1
+  Hw3IndexPhotos:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: hw3_index_photos_example
+      Handler: hw3_index_photos.lambda_handler
+      Runtime: python3.6
+      CodeUri: s3://hw3-cloudformation-template-example/98fb5808d30ef80803017b54596506ab
+      Description: Lambda function for Searching Photos
+      MemorySize: 128
+      Timeout: 30
+      Role: arn:aws:iam::910222472548:role/service-role/hw3-index-photos-role-233hzno5
+      Policies:
+        - AmazonS3FullAccess
+        - AWSLambda_FullAccess
+      Events:
+        UploadS3:
+          Type: S3
+          Properties:
+            Bucket:
+              Ref: Hw3PhotoBucket
+            Events: s3:ObjectCreated:Put
+      Environment:
+        Variables:
+          REGION: us-east-1
+Outputs:
+  BucketName:
+    Value:
+      Ref: Hw3PhotoBucket
+    Description: Hw3 photo bucket
