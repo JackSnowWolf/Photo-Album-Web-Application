@@ -2,6 +2,7 @@ import json
 import logging
 import random
 import string
+import boto3
 
 from botocore.vendored import requests
 
@@ -71,37 +72,29 @@ def lambda_handler(event, context):
         logger.info(json.dumps(event, indent=2))
 
         query = event["queryStringParameters"]['q']
-        # lex = boto3.client('lex-runtime')
-        #
-        # user_id = generate_id()
-        # # logger.info(user_id)
-        # bot_name = 'SearchBot'
-        # lex_response = lex.post_text(
-        #     botName=bot_name,
-        #     botAlias=bot_name,
-        #     userId=user_id,
-        #     inputText=query
-        # )
-        # # logger.info(lex_response)
-        #
-        # keywords = []
-        # for key, val in lex_response['slots'].items():
-        #     keywords.append(val)
-        # keyword = keywords[0]
+        
+        # 
+        lex = boto3.client('lex-runtime')
+        user_id = generate_id()
+        # logger.info(user_id)
+        bot_name = 'SearchBot'
+        lex_response = lex.post_text(
+            botName=bot_name,
+            botAlias=bot_name,
+            userId=user_id,
+            inputText=query
+        )
+        logger.info("lex_response:")
+        logger.info(lex_response)
+        
+        keywords = []
+        for key, val in lex_response['slots'].items():
+            keywords.append(val)
+        keyword = keywords[0]
 
-        # logger.info(keyword)
+        logger.info(keyword)
 
-        response.update(search_images(query))
-        # return {
-        #     'statusCode': 200,
-        #     'headers': {
-        #         "Access-Control-Allow-Origin": "*",
-        #         "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PUT",
-        #         "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-        #     },
-        #     'body': json.dumps({"files": es_response.json()})
-        #     # 'body': json.dumps('Hello from Lambda!')
-        # }
+        response.update(search_images(keyword))
     except Exception as e:
         logger.error(e)
         response['statusCode'] = 400
