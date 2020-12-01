@@ -5,7 +5,6 @@ phases:
       - cd backend
       - aws cloudformation package --template-file samTemplate.yaml --s3-bucket hw3-cloudformation-template-example  --output-template-file outputsamtemplate.yml
 artifacts:
-  type: zip
   base-directory: backend
   files:
     - samTemplate.yaml
