@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: AI Photo Album Lambda CD
 Resources:
-  hw3-upload-to-s3:
+  Hw3UploadToS3:
     Type: 'AWS::Serverless::Function'
     Properties:
       FunctionName: hw3-upload-to-s3

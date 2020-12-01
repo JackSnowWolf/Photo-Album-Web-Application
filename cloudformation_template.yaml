@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AI Photo Album CloudFormation Template
+Resources:
+  Hw3UploadToS3:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: hw3-upload-to-s3
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.6
+      Description: 'Lambda function for Uploading to S3'
+
