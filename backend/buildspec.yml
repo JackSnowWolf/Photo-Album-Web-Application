@@ -3,9 +3,9 @@ phases:
   install:
     commands:
       - cd backend
-      - aws cloudformation package --template-file samTemplate.yaml --s3-bucket hw3-cloudformation-template-example  --output-template-file outputsamtemplate.yml
+      - aws cloudformation package --template-file samTemplate.yaml --s3-bucket hw3-cloudformation-template-example  --output-template-file outputsamtemplate.yaml
 artifacts:
   base-directory: backend
   files:
     - samTemplate.yaml
-    - outputsamtemplate.yml
+    - outputsamtemplate.yaml
