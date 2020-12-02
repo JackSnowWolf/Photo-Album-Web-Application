@@ -66,6 +66,11 @@ Resources:
       Environment:
         Variables:
           REGION: us-east-1
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-047ed9505a9f4034e
+        SubnetIds:
+          - subnet-0b339880751be37fc
   Hw3IndexPhotos:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -90,6 +95,11 @@ Resources:
       Environment:
         Variables:
           REGION: us-east-1
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-047ed9505a9f4034e
+        SubnetIds:
+          - subnet-022ec09c3c1c97fe4
 
 Outputs:
   BucketName:
