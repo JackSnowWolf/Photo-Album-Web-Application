@@ -47,7 +47,7 @@ paths:
         type: "aws_proxy"
         httpMethod: "POST"
         # Replace AWS_REGION and ACCOUNT_ID in uri
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:910222472548:function:Hw3SearchPhotos/invocations"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:910222472548:function:hw3_search_photos_example/invocations"
         responses:
           default:
             statusCode: '200'
@@ -126,7 +126,7 @@ paths:
         type: "aws_proxy"
         httpMethod: "POST"
         # Replace AWS_REGION and ACCOUNT_ID in uri
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:910222472548:function:Hw3UploadToS3/invocations"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:910222472548:function:hw3_upload_to_s3_example/invocations"
         responses:
           default:
             statusCode: '200'
