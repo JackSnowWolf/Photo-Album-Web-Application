@@ -2,8 +2,8 @@ import json
 import logging
 import random
 import string
-import boto3
 
+import boto3
 from botocore.vendored import requests
 
 # import requests
@@ -33,9 +33,9 @@ def extract_item(item):
 def search_images(keywords):
     # es stuf
     try:
-        query=""
+        query = ""
         for keyword in keywords:
-            query+=str(keyword+" ")
+            query += str(keyword + " ")
         url = PHOTOS_ELASTICSEARCH_BASE_URL + "?q=%s" % query
         es_response = requests.get(url).json()
 
@@ -74,7 +74,7 @@ def lambda_handler(event, context):
         logger.info(json.dumps(event, indent=2))
 
         query = event["queryStringParameters"]['q']
-        
+
         # 
         lex = boto3.client('lex-runtime')
         user_id = generate_id()
@@ -88,9 +88,11 @@ def lambda_handler(event, context):
         )
         logger.info("lex_response:")
         logger.info(lex_response)
-        
+
         keywords = []
         for key, val in lex_response['slots'].items():
+            if val is None:
+                continue
             keywords.append(val)
         keyword = keywords[0]
 
