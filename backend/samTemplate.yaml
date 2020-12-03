@@ -2,6 +2,12 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: AI Photo Album Lambda CD
 Resources:
+  Hw3ApiGateway:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: Prod
+      OpenApiVersion: "2.0"
+      DefinitionUri: ai-album-api.yaml
   Hw3PhotoBucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
@@ -40,6 +46,8 @@ Resources:
           Properties:
             Path: /upload
             Method: put
+            RestApiId:
+              Ref: Hw3ApiGateway
       Environment:
         Variables:
           REGION: us-east-1
@@ -63,6 +71,8 @@ Resources:
           Properties:
             Path: /search
             Method: get
+            RestApiId:
+              Ref: Hw3ApiGateway
       Environment:
         Variables:
           REGION: us-east-1
