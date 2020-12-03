@@ -30,10 +30,12 @@ def extract_item(item):
     }
 
 
-def search_images(query):
+def search_images(keywords):
     # es stuf
     try:
-
+        query=""
+        for keyword in keywords:
+            query+=str(keyword+" ")
         url = PHOTOS_ELASTICSEARCH_BASE_URL + "?q=%s" % query
         es_response = requests.get(url).json()
 
@@ -92,9 +94,9 @@ def lambda_handler(event, context):
             keywords.append(val)
         keyword = keywords[0]
 
-        logger.info(keyword)
+        logger.info(keywords)
 
-        response.update(search_images(keyword))
+        response.update(search_images(keywords))
     except Exception as e:
         logger.error(e)
         response['statusCode'] = 400
