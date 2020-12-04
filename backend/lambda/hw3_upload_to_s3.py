@@ -29,7 +29,7 @@ def lambda_handler(event, context):
 
         # our S# Bucket
         s3 = boto3.client('s3')
-        bucket = 'hw3-b2-for-photos'
+        bucket = 'hw3-photo-bucket-example'
 
         img_path = '/tmp/' + image_name
 
